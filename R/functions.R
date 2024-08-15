@@ -164,7 +164,16 @@ simulate_economy <- function(periods = 50,
 
 
 
-plot_simulation_results <- function(results, periods = 50) {
+#' PLot Economy
+#'
+#' @param results
+#' @param periods
+#'
+#' @return
+#' @export
+#'
+#' @examples
+plot_economy <- function(results, periods = 50) {
   # Extract results
   output_gap <- results$output_gap
   inflation <- results$inflation
