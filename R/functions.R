@@ -1,29 +1,36 @@
 #' Simulate an Monetary Policy
 #'
 #' @param periods Number of periods to simulate (Default is 50)
-#' @param gamma
-#' @param alpha
-#' @param rule_pi
-#' @param rule_y
-#' @param delta
-#' @param adaptive
-#' @param cost_push_shock_persistance
-#' @param demand_shock_persistance
-#' @param monetary_shock_persistance
-#' @param financial_shock_persistance
-#' @param demand_shocks
-#' @param cost_push_shocks
-#' @param monetary_shocks
-#' @param financial_shocks
-#' @param demand_shock_magnitude
-#' @param cost_push_shock_magnitude
-#' @param monetary_shock_magnitude
-#' @param financial_shock_magnitude
+#' @param gamma - what is gamma ? what is the range?
+#' @param alpha - what is it ? what is the range?
+#' @param rule_pi - what is it ? what is the range?
+#' @param rule_y - what is it ? what is the range?
+#' @param delta - what is it ? what is the range?
+#' @param adaptive - what is it ? what is the range?
+#' @param cost_push_shock_persistance - what is it ? what is the range?
+#' @param demand_shock_persistance - what is it ? what is the range?
+#' @param monetary_shock_persistance - what is it ? what is the range?
+#' @param financial_shock_persistance - what is it ? what is the range?
+#' @param demand_shocks - what is it ? what is the range?
+#' @param cost_push_shocks - what is it ? what is the range?
+#' @param monetary_shocks - what is it ? what is the range?
+#' @param financial_shocks - what is it ? what is the range?
+#' @param demand_shock_magnitude - what is it ? what is the range?
+#' @param cost_push_shock_magnitude - what is it ? what is the range?
+#' @param monetary_shock_magnitude - what is it ? what is the range?
+#' @param financial_shock_magnitude - what is it ? what is the range?
 #'
-#' @return
+#' @return a named list
 #' @export
 #'
 #' @examples
+#' econ1 <- simulate_economy(
+#'              adaptive = 0,
+#'              demand_shocks = c(3),
+#'              cost_push_shocks = c(3),
+#'              monetary_shocks = c(3),
+#'              financial_shocks = c(5),
+#'              cost_push_shock_magnitude = 4)
 
 
 simulate_economy <- function(periods = 50,
@@ -46,6 +53,15 @@ simulate_economy <- function(periods = 50,
                              monetary_shock_magnitude = 1, # Magnitude of monetary shocks
                              financial_shock_magnitude = 1  # Magnitude of financial shocks
 ) {
+
+  # should there be any checks on the ranges of the input values?
+  ### for instance here periods appears to need to be an integer greater than 3
+  if (floor(periods) != periods){
+    stop("periods must be an integer.")
+  }
+  if (periods <= 3){
+    stop("periods must be greater than 3.")
+  }
 
   # Calculate theta based on the formula provided
   theta <- (1 + alpha * rule_y - alpha * delta) /
@@ -94,8 +110,10 @@ simulate_economy <- function(periods = 50,
   # Initialize inflation (pi) vector
   pi <- numeric(periods)
 
+  ### for instance here periods appears to need to be an integer greater than 3
   for (t in 2:periods) {
     pi[t] <- 2.0  # Placeholder value for the inflation rate; adjust as per your model
+    # should this be a parameter for the function then?
 
     if (t >= 3) {
       pie[t] <- credible * pit[t-1] + adaptive * pi[t-1]
@@ -166,14 +184,29 @@ simulate_economy <- function(periods = 50,
 
 #' PLot Economy
 #'
+#' plot generic for simulate_economy class
+#'
 #' @param results
 #' @param periods
+#' @param ... used for future expansions
 #'
-#' @return
+#' @importFrom graphics legend lines par
+#'
+#' @return a plot
 #' @export
 #'
 #' @examples
-plot_economy <- function(results, periods = 50) {
+#' econ1 <- simulate_economy(
+#'              adaptive = 0,
+#'              demand_shocks = c(3),
+#'              cost_push_shocks = c(3),
+#'              monetary_shocks = c(3),
+#'              financial_shocks = c(5),
+#'              cost_push_shock_magnitude = 4)
+#'
+#' plot(econ1)
+#'
+plot.simulate_economy <- function(x, periods = 50, ...) {
   # Extract results
   output_gap <- results$output_gap
   inflation <- results$inflation
@@ -214,9 +247,3 @@ plot_economy <- function(results, periods = 50) {
        ylab = "Spread", xlab = "Time", main = "Spread ")
 }
 
-
-# Example usage:
-
-# Example of how to call the function with custom parameters
-#econ1 <- simulate_economy(adaptive = 0,demand_shocks = c(3), cost_push_shocks = c(3), monetary_shocks = c(3), financial_shocks = c(5), cost_push_shock_magnitude = 4)
-#plot_simulation_results(econ1, periods = 50)
