@@ -1,12 +1,12 @@
 #' Simulate an Monetary Policy
 #'
 #' @param periods Number of periods to simulate (Default is 50)
-#' @param gamma
-#' @param alpha
-#' @param rule_pi
-#' @param rule_y
-#' @param delta
-#' @param adaptive
+#' @param gamma Parameters of the Phillips curve
+#' @param alpha Parameters of the IS curve
+#' @param rule_pi Parameters of the interest rate rule; (Response to inflation (relative to target))
+#' @param rule_y Parameters of the interest rate rule; (Response to output gap )
+#' @param delta Financial Markets frictions
+#' @param adaptive Weight on past inflation (1=adaptive expectations; 0=rational expectations)
 #' @param cost_push_shock_persistance
 #' @param demand_shock_persistance
 #' @param monetary_shock_persistance
@@ -20,8 +20,15 @@
 #' @param monetary_shock_magnitude
 #' @param financial_shock_magnitude
 #'
-#' @return
+#' @return a named list
 #' @export
+#' econ1 <- simulate_economy(
+#'              adaptive = 0,
+#'              demand_shocks = c(3),
+#'              cost_push_shocks = c(3),
+#'              monetary_shocks = c(3),
+#'              financial_shocks = c(5),
+#'              cost_push_shock_magnitude = 4)
 #'
 #' @examples
 
@@ -147,8 +154,8 @@ simulate_economy <- function(periods = 50,
     spread[t] <- lending_rate[t] - policy_rate[t] - 1
   }
 
-  # Return results as a list
-  return(list(
+
+  results <- list(
     output_gap = output_gap,
     inflation = pi,
     policy_rate = policy_rate,
@@ -156,24 +163,44 @@ simulate_economy <- function(periods = 50,
     change_lending_rate = change_lending_rate,
     lending_rate = lending_rate,
     spread = spread,
-    pie = pie
-  ))
+    pie = pie,
+    period = periods
+  )
+
+class(results) <- c("simulate_economy",class(results))
+
+# Return results as a list
+return(results)
 }
 
 
-
-
-
-#' PLot Economy
+#' Plot generic for simulate_economy class
 #'
-#' @param results
-#' @param periods
+#' @param x - an object of class simulate_economy
+#' @param ... used for future expansions
 #'
-#' @return
+#' @importFrom graphics legend lines par
+#'
+#' @return a plot
 #' @export
 #'
 #' @examples
-plot_economy <- function(results, periods = 50) {
+#' econ1 <- simulate_economy(
+#'              adaptive = 0,
+#'              demand_shocks = c(3),
+#'              cost_push_shocks = c(3),
+#'              monetary_shocks = c(3),
+#'              financial_shocks = c(5),
+#'              cost_push_shock_magnitude = 4)
+#'
+#' plot.simulate_economy(econ1)
+
+
+
+plot.simulate_economy <- function(results) {
+
+  results <- x
+
   # Extract results
   output_gap <- results$output_gap
   inflation <- results$inflation
@@ -182,6 +209,7 @@ plot_economy <- function(results, periods = 50) {
   real_rate <- results$real_rate
   lending_rate <- results$lending_rate
   spread <- results$spread
+  periods <- results$periods
 
   # Set up the plotting area: 2 rows and 2 columns
   par(mfrow = c(2, 2))
@@ -214,9 +242,3 @@ plot_economy <- function(results, periods = 50) {
        ylab = "Spread", xlab = "Time", main = "Spread ")
 }
 
-
-# Example usage:
-
-# Example of how to call the function with custom parameters
-#econ1 <- simulate_economy(adaptive = 0,demand_shocks = c(3), cost_push_shocks = c(3), monetary_shocks = c(3), financial_shocks = c(5), cost_push_shock_magnitude = 4)
-#plot_simulation_results(econ1, periods = 50)
