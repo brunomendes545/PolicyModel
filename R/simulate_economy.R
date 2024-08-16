@@ -197,7 +197,7 @@ return(results)
 
 
 
-plot.simulate_economy <- function(results) {
+plot.simulate_economy <- function(x) {
 
   results <- x
 
