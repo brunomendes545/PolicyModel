@@ -165,8 +165,7 @@ simulate_economy <- function(periods = 50,
     spread[t] <- lending_rate[t] - policy_rate[t] - 1
   }
 
-  # Return results as a list
-  return(list(
+  results <- list(
     output_gap = output_gap,
     inflation = pi,
     policy_rate = policy_rate,
@@ -174,8 +173,14 @@ simulate_economy <- function(periods = 50,
     change_lending_rate = change_lending_rate,
     lending_rate = lending_rate,
     spread = spread,
-    pie = pie
-  ))
+    pie = pie,
+    periods = periods
+  )
+
+  class(results) <- c("simulate_economy",class(results))
+
+  # Return results as a list
+  return(results)
 }
 
 
@@ -186,8 +191,7 @@ simulate_economy <- function(periods = 50,
 #'
 #' plot generic for simulate_economy class
 #'
-#' @param results
-#' @param periods
+#' @param x - an object of class simulate_economy
 #' @param ... used for future expansions
 #'
 #' @importFrom graphics legend lines par
@@ -206,7 +210,10 @@ simulate_economy <- function(periods = 50,
 #'
 #' plot(econ1)
 #'
-plot.simulate_economy <- function(x, periods = 50, ...) {
+plot.simulate_economy <- function(x, ...) {
+
+  results <- x
+
   # Extract results
   output_gap <- results$output_gap
   inflation <- results$inflation
@@ -215,6 +222,7 @@ plot.simulate_economy <- function(x, periods = 50, ...) {
   real_rate <- results$real_rate
   lending_rate <- results$lending_rate
   spread <- results$spread
+  periods <- results$periods
 
   # Set up the plotting area: 2 rows and 2 columns
   par(mfrow = c(2, 2))
