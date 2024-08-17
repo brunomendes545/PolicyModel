@@ -1,2 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^PolicyModel\.Rcheck$
+^PolicyModel.*\.tar\.gz$
+^PolicyModel.*\.tgz$
+^LICENSE\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

@@ -71,3 +71,12 @@ a named list
 \description{
 Simulate an Monetary Policy
 }
+\examples{
+econ1 <- simulate_economy(
+             adaptive = 0,
+             demand_shocks = c(3),
+             cost_push_shocks = c(3),
+             monetary_shocks = c(3),
+             financial_shocks = c(5),
+             cost_push_shock_magnitude = 4)
+}
