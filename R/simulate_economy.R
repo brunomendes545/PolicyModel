@@ -39,8 +39,8 @@
 #'   financial_shocks = c(9),
 #'   demand_shock_magnitude = c(-2, 1),
 #'   cost_push_shock_magnitude = c(1.5, -0.5),
-#'   monetary_shock_magnitude = 1,
-#'   financial_shock_magnitude = 0.5
+#'   monetary_shock_magnitude = c(1),
+#'   financial_shock_magnitude = (0.5)
 #' )
 
 simulate_economy <- function(
@@ -228,8 +228,8 @@ simulate_economy <- function(
 #'   financial_shocks = c(9),
 #'   demand_shock_magnitude = c(-2, 1),
 #'   cost_push_shock_magnitude = c(1.5, -0.5),
-#'   monetary_shock_magnitude = 1,
-#'   financial_shock_magnitude = 0.5
+#'   monetary_shock_magnitude = c(1),
+#'   financial_shock_magnitude = c(0.5)
 #' )
 #'
 #' plot(econ1)
@@ -279,3 +279,6 @@ plot.simulate_economy <- function(x, ...) {
   plot(1:periods, spread, type = "l", col = "black", lwd = 2,
        ylab = "Spread", xlab = "Time", main = "Spread ")
 }
+
+ss<-simulate_economy
+plot(ss)
