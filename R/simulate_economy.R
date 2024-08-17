@@ -187,7 +187,7 @@ simulate_economy <- function(periods = 50,
 
 
 
-#' PLot Economy
+#' Plot Economy
 #'
 #' plot generic for simulate_economy class
 #'
@@ -229,11 +229,11 @@ plot.simulate_economy <- function(x, ...) {
 
   # Plot Output Gap
   plot(1:periods, output_gap, type = "l", col = "blue", lwd = 2,
-       ylab = "Output Gap", xlab = "Time", main = "Output Gap")
+       ylab = "Output Gap", xlab = "Period", main = "Output Gap")
 
   # Plot Inflation Expectations (pie) and Inflation (pi) in the same graph
   plot(1:periods, pie, type = "l", col = "red", lwd = 2, lty = 2,
-       ylab = "Inflation and Inflation Expectations", xlab = "Time", main = "Inflation and Expectations",,
+       ylab = "Inflation and Inflation Expectations", xlab = "Period", main = "Inflation and Expectations",
        ylim = ylim_range)
   lines(1:periods, inflation, col = "blue", lwd = 2, lty = 1)
   legend("topright", legend = c("Inflation Expectations (pie)", "Inflation"),
@@ -241,10 +241,9 @@ plot.simulate_economy <- function(x, ...) {
 
   # Combine Policy Rate, Real Rate, and Lending Rate into one graph
   # Calculate the y-axis limits based on the range of the three series
-  ylim_range <- range(c(policy_rate, real_rate, lending_rate))
-
+  ylim_range <- range(c(policy_rate, real_rate, lending_rate))Period
   plot(1:periods, policy_rate, type = "l", col = "purple", lwd = 2, lty = 1,
-       ylab = "Rates", xlab = "Time", main = "Policy, Real, and Lending Rates",
+       ylab = "Rates", xlab = "Period", main = "Policy, Real, and Lending Rates",
        ylim = ylim_range)
   lines(1:periods, real_rate, col = "orange", lwd = 2, lty = 2)
   lines(1:periods, lending_rate, col = "brown", lwd = 2, lty = 3)
