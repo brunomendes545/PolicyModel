@@ -1,8 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^PolicyModel\.Rcheck$
-^PolicyModel.*\.tar\.gz$
-^PolicyModel.*\.tgz$
+^policymodel\.Rcheck$
+^policymodel.*\.tar\.gz$
+^policymodel.*\.tgz$
 ^LICENSE\.md$
 ^_pkgdown\.yml$
 ^docs$

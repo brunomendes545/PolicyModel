@@ -3,7 +3,7 @@
 .RData
 .Ruserdata
 Rplots.pdf
-PolicyModel.Rcheck/
-PolicyModel*.tar.gz
-PolicyModel*.tgz
+policymodel.Rcheck/
+policymodel*.tar.gz
+policymodel*.tgz
 docs
