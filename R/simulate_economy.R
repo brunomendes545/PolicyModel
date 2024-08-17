@@ -199,7 +199,7 @@ return(results)
 
 plot.simulate_economy <- function(x) {
 
-  results <- x
+  x<-results
 
   # Extract results
   output_gap <- results$output_gap
