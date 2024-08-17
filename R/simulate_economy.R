@@ -236,10 +236,10 @@ plot.simulate_economy <- function(x, ...) {
        ylab = "Output Gap", xlab = "Period", main = "Output Gap")
 
   # Plot Inflation Expectations (pie) and Inflation (pi) in the same graph
-  ylim_range <- range(c(pie,inflation))Period
+  ylim_range1 <- range(c(pie,inflation))Period
   plot(1:periods, pie, type = "l", col = "red", lwd = 2, lty = 2,
        ylab = "Inflation and Inflation Expectations", xlab = "Period", main = "Inflation and Expectations",
-       ylim = ylim_range)
+       ylim = ylim_range1)
   lines(1:periods, inflation, col = "blue", lwd = 2, lty = 1)
   legend("topright", legend = c("Inflation Expectations (pie)", "Inflation"),
          col = c("red", "blue"), lty = c(2, 1), lwd = 2, cex = 0.8)
