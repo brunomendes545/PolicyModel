@@ -3,11 +3,15 @@
 #' @param periods - Number of periods to simulate (Default is 50)
 #' @param gamma - Parameters of the Phillips curve (Default is 0.75)
 #' @param alpha - Parameters of the IS curve (Default is 0.8)
-#' @param rule_pi - Parameters of the interest rate rule; (Response to inflation (relative to target)) (Default is 1.5)
-#' @param rule_y - Parameters of the interest rate rule; (Response to output gap ) (Default is 0.5)
+#' @param rule_pi - Parameters of the interest rate rule; (Response to inflation
+#'   (relative to target)) (Default is 1.5)
+#' @param rule_y - Parameters of the interest rate rule; (Response to output gap
+#'   ) (Default is 0.5)
 #' @param delta - Financial Markets frictions (Default is 1)
-#' @param adaptive - Weight on past inflation (1=adaptive expectations; 0=rational expectations) (Default is 1)
-#' @param cost_push_shock_persistance - Persistence of cost push shocks; Range from 0 to 1; (Default is 0.5)
+#' @param adaptive - Weight on past inflation (1=adaptive expectations;
+#'   0=rational expectations) (Default is 1)
+#' @param cost_push_shock_persistance - Persistence of cost push shocks; Range
+#'   from 0 to 1; (Default is 0.5)
 #' @param demand_shock_persistance - what is it ? what is the range?
 #' @param monetary_shock_persistance - what is it ? what is the range?
 #' @param financial_shock_persistance - what is it ? what is the range?
@@ -232,6 +236,7 @@ plot.simulate_economy <- function(x, ...) {
        ylab = "Output Gap", xlab = "Period", main = "Output Gap")
 
   # Plot Inflation Expectations (pie) and Inflation (pi) in the same graph
+  ylim_range <- range(c(pie,inflation))Period
   plot(1:periods, pie, type = "l", col = "red", lwd = 2, lty = 2,
        ylab = "Inflation and Inflation Expectations", xlab = "Period", main = "Inflation and Expectations",
        ylim = ylim_range)
