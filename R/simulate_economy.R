@@ -29,41 +29,47 @@
 #'
 #' @examples
 #' econ1 <- simulate_economy(
-#'              adaptive = 0,
-#'              demand_shocks = c(3),
-#'              cost_push_shocks = c(3),
-#'              monetary_shocks = c(3),
-#'              financial_shocks = c(5),
-#'              cost_push_shock_magnitude = 4)
+#'   cost_push_shock_persistance = 0.5,
+#'   demand_shock_persistance = 0.75,
+#'   monetary_shock_persistance = 0.5,
+#'   financial_shock_persistance = 0.5,
+#'   demand_shocks = c(3, 10),
+#'   cost_push_shocks = c(5, 15),
+#'   monetary_shocks = c(7),
+#'   financial_shocks = c(9),
+#'   demand_shock_magnitude = c(-2, 1),
+#'   cost_push_shock_magnitude = c(1.5, -0.5),
+#'   monetary_shock_magnitude = 1,
+#'   financial_shock_magnitude = 0.5
+#' )
 
-
-simulate_economy <- function(periods = 50,
-                             gamma = 0.75, # PC parameters
-                             alpha = 0.8,  # IS curve parameters
-                             rule_pi = 1.5, # Response to inflation (relative to target)
-                             rule_y = 0.5, # Response to output gap
-                             delta = 1,   # Financial Markets frictions
-                             adaptive = 1, # Weight on past inflation (1=adaptive expectations)
-                             cost_push_shock_persistance = 0.5,
-                             demand_shock_persistance = 0.5,
-                             monetary_shock_persistance = 0.5,
-                             financial_shock_persistance = 0.5,
-                             demand_shocks = c(), # Periods where demand shocks occur
-                             cost_push_shocks = c(), # Periods where cost-push shocks occur
-                             monetary_shocks = c(), # Periods where monetary shocks occur
-                             financial_shocks = c(), # Periods where financial shocks occur
-                             demand_shock_magnitude = 1, # Magnitude of demand shocks
-                             cost_push_shock_magnitude = 1, # Magnitude of cost-push shocks
-                             monetary_shock_magnitude = 1, # Magnitude of monetary shocks
-                             financial_shock_magnitude = 1  # Magnitude of financial shocks
+simulate_economy <- function(
+    periods = 50,
+    gamma = 0.75,  # PC parameters
+    alpha = 0.8,   # IS curve parameters
+    rule_pi = 1.5, # Response to inflation (relative to target)
+    rule_y = 0.5,  # Response to output gap
+    delta = 1,     # Financial Markets frictions
+    adaptive = 1,  # Weight on past inflation (1=adaptive expectations)
+    cost_push_shock_persistance = 0.5,
+    demand_shock_persistance = 0.5,
+    monetary_shock_persistance = 0.5,
+    financial_shock_persistance = 0.5,
+    demand_shocks = c(),  # Periods where demand shocks occur
+    cost_push_shocks = c(),  # Periods where cost-push shocks occur
+    monetary_shocks = c(),  # Periods where monetary shocks occur
+    financial_shocks = c(),  # Periods where financial shocks occur
+    demand_shock_magnitude = c(),  # Magnitude of demand shocks
+    cost_push_shock_magnitude = c(),  # Magnitude of cost-push shocks
+    monetary_shock_magnitude = c(),  # Magnitude of monetary shocks
+    financial_shock_magnitude = c()  # Magnitude of financial shocks
 ) {
 
-  # should there be any checks on the ranges of the input values?
-  ### for instance here periods appears to need to be an integer greater than 3
-  if (floor(periods) != periods){
+  # Check that periods is an integer greater than 3
+  if (floor(periods) != periods) {
     stop("periods must be an integer.")
   }
-  if (periods <= 3){
+  if (periods <= 3) {
     stop("periods must be greater than 3.")
   }
 
@@ -71,7 +77,7 @@ simulate_economy <- function(periods = 50,
   theta <- (1 + alpha * rule_y - alpha * delta) /
     (1 + alpha * rule_y - alpha * delta + alpha * gamma * (rule_pi - 1))
 
-  credible <- 1 - adaptive # Weight on inflation target (1=perfect credibility)
+  credible <- 1 - adaptive  # Weight on inflation target (1=perfect credibility)
 
   # Initialize shock vectors
   cost_push_shock <- rep(0, periods)
@@ -83,20 +89,28 @@ simulate_economy <- function(periods = 50,
   # Initialize variables for simulation
   pie <- rep(2.0, periods)  # Inflation expectations
   pit <- rep(2.0, periods)  # Inflation target
-  change_lending_rate <- rep(0.0, periods) # Change in lending rate
+  change_lending_rate <- rep(0.0, periods)  # Change in lending rate
 
   # Set shocks based on input periods and magnitudes
-  demand_shock[demand_shocks] <- demand_shock_magnitude
-  cost_push_shock[cost_push_shocks] <- cost_push_shock_magnitude
-  monetary_shock[monetary_shocks] <- monetary_shock_magnitude
-  financial_shock[financial_shocks] <- financial_shock_magnitude
+  if (length(demand_shocks) > 0) {
+    demand_shock[demand_shocks] <- demand_shock_magnitude
+  }
+  if (length(cost_push_shocks) > 0) {
+    cost_push_shock[cost_push_shocks] <- cost_push_shock_magnitude
+  }
+  if (length(monetary_shocks) > 0) {
+    monetary_shock[monetary_shocks] <- monetary_shock_magnitude
+  }
+  if (length(financial_shocks) > 0) {
+    financial_shock[financial_shocks] <- financial_shock_magnitude
+  }
 
   # Apply persistence for shocks
   for (t in 2:periods) {
-    demand_shock[t] <- ifelse(t %in% demand_shocks, demand_shock[t], demand_shock[t-1] * demand_shock_persistance)
-    cost_push_shock[t] <- ifelse(t %in% cost_push_shocks, cost_push_shock[t], cost_push_shock[t-1] * cost_push_shock_persistance)
-    monetary_shock[t] <- ifelse(t %in% monetary_shocks, monetary_shock[t], monetary_shock[t-1] * monetary_shock_persistance)
-    financial_shock[t] <- ifelse(t %in% financial_shocks, financial_shock[t], financial_shock[t-1] * financial_shock_persistance)
+    demand_shock[t] <- ifelse(demand_shock[t] == 0, demand_shock[t-1] * demand_shock_persistance, demand_shock[t])
+    cost_push_shock[t] <- ifelse(cost_push_shock[t] == 0, cost_push_shock[t-1] * cost_push_shock_persistance, cost_push_shock[t])
+    monetary_shock[t] <- ifelse(monetary_shock[t] == 0, monetary_shock[t-1] * monetary_shock_persistance, monetary_shock[t])
+    financial_shock[t] <- ifelse(financial_shock[t] == 0, financial_shock[t-1] * financial_shock_persistance, financial_shock[t])
   }
 
   # Calculate output gap
@@ -114,10 +128,9 @@ simulate_economy <- function(periods = 50,
   # Initialize inflation (pi) vector
   pi <- numeric(periods)
 
-  ### for instance here periods appears to need to be an integer greater than 3
+  # Update inflation expectations and targets
   for (t in 2:periods) {
     pi[t] <- 2.0  # Placeholder value for the inflation rate; adjust as per your model
-    # should this be a parameter for the function then?
 
     if (t >= 3) {
       pie[t] <- credible * pit[t-1] + adaptive * pi[t-1]
@@ -125,7 +138,7 @@ simulate_economy <- function(periods = 50,
     }
   }
 
-  # Calculate next period inflation expectations and target
+  # Calculate inflation with financial frictions
   for (t in 1:periods) {
     pi[t] <- theta * pie[t] +
       (1 - theta) * pit[t] +
@@ -205,12 +218,19 @@ simulate_economy <- function(periods = 50,
 #'
 #' @examples
 #' econ1 <- simulate_economy(
-#'              adaptive = 0,
-#'              demand_shocks = c(3),
-#'              cost_push_shocks = c(3),
-#'              monetary_shocks = c(3),
-#'              financial_shocks = c(5),
-#'              cost_push_shock_magnitude = 4)
+#'   cost_push_shock_persistance = 0.5,
+#'   demand_shock_persistance = 0.75,
+#'   monetary_shock_persistance = 0.5,
+#'   financial_shock_persistance = 0.5,
+#'   demand_shocks = c(3, 10),
+#'   cost_push_shocks = c(5, 15),
+#'   monetary_shocks = c(7),
+#'   financial_shocks = c(9),
+#'   demand_shock_magnitude = c(-2, 1),
+#'   cost_push_shock_magnitude = c(1.5, -0.5),
+#'   monetary_shock_magnitude = 1,
+#'   financial_shock_magnitude = 0.5
+#' )
 #'
 #' plot(econ1)
 #'
