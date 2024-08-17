@@ -236,15 +236,17 @@ plot.simulate_economy <- function(x, ...) {
        ylab = "Output Gap", xlab = "Period", main = "Output Gap")
 
   # Plot Inflation Expectations (pie) and Inflation (pi) in the same graph
+  ylim_range1 <- range(c(pie,inflation))
   plot(1:periods, pie, type = "l", col = "red", lwd = 2, lty = 2,
-       ylab = "Inflation and Inflation Expectations", xlab = "Period", main = "Inflation and Expectations")
+       ylab = "Inflation and Inflation Expectations", xlab = "Period", main = "Inflation and Expectations",
+       ylim = ylim_range1)
   lines(1:periods, inflation, col = "blue", lwd = 2, lty = 1)
   legend("topright", legend = c("Inflation Expectations (pie)", "Inflation"),
          col = c("red", "blue"), lty = c(2, 1), lwd = 2, cex = 0.8)
 
   # Combine Policy Rate, Real Rate, and Lending Rate into one graph
   # Calculate the y-axis limits based on the range of the three series
-  ylim_range <- range(c(policy_rate, real_rate, lending_rate))Period
+  ylim_range <- range(c(policy_rate, real_rate, lending_rate))
   plot(1:periods, policy_rate, type = "l", col = "purple", lwd = 2, lty = 1,
        ylab = "Rates", xlab = "Period", main = "Policy, Real, and Lending Rates",
        ylim = ylim_range)
