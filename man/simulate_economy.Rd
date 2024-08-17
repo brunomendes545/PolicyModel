@@ -28,20 +28,41 @@ simulate_economy(
 }
 \arguments{
 \item{periods}{Number of periods to simulate (Default is 50)}
+\item{gamma}{- what is gamma ? what is the range?}
 
-\item{gamma}{Parameters of the Phillips curve}
+\item{alpha}{- what is it ? what is the range?}
 
-\item{alpha}{Parameters of the IS curve}
+\item{rule_pi}{- what is it ? what is the range?}
 
-\item{rule_pi}{Parameters of the interest rate rule; (Response to inflation (relative to target))}
+\item{rule_y}{- what is it ? what is the range?}
 
-\item{rule_y}{Parameters of the interest rate rule; (Response to output gap )}
+\item{delta}{- what is it ? what is the range?}
 
-\item{delta}{Financial Markets frictions}
+\item{adaptive}{- what is it ? what is the range?}
 
-\item{adaptive}{Weight on past inflation (1=adaptive expectations; 0=rational expectations)}
+\item{cost_push_shock_persistance}{- what is it ? what is the range?}
 
-\item{financial_shock_magnitude}{}
+\item{demand_shock_persistance}{- what is it ? what is the range?}
+
+\item{monetary_shock_persistance}{- what is it ? what is the range?}
+
+\item{financial_shock_persistance}{- what is it ? what is the range?}
+
+\item{demand_shocks}{- what is it ? what is the range?}
+
+\item{cost_push_shocks}{- what is it ? what is the range?}
+
+\item{monetary_shocks}{- what is it ? what is the range?}
+
+\item{financial_shocks}{- what is it ? what is the range?}
+
+\item{demand_shock_magnitude}{- what is it ? what is the range?}
+
+\item{cost_push_shock_magnitude}{- what is it ? what is the range?}
+
+\item{monetary_shock_magnitude}{- what is it ? what is the range?}
+
+\item{financial_shock_magnitude}{- what is it ? what is the range?}
 }
 \value{
 a named list
