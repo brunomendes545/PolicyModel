@@ -59,10 +59,10 @@ simulate_economy <- function(
     cost_push_shocks = c(),  # Periods where cost-push shocks occur
     monetary_shocks = c(),  # Periods where monetary shocks occur
     financial_shocks = c(),  # Periods where financial shocks occur
-    demand_shock_magnitude = c(),  # Magnitude of demand shocks
-    cost_push_shock_magnitude = c(),  # Magnitude of cost-push shocks
-    monetary_shock_magnitude = c(),  # Magnitude of monetary shocks
-    financial_shock_magnitude = c()  # Magnitude of financial shocks
+    demand_shock_magnitude = c(1),  # Magnitude of demand shocks
+    cost_push_shock_magnitude = c(1),  # Magnitude of cost-push shocks
+    monetary_shock_magnitude = c(1),  # Magnitude of monetary shocks
+    financial_shock_magnitude = c(1)  # Magnitude of financial shocks
 ) {
 
   # Check that periods is an integer greater than 3
@@ -279,6 +279,3 @@ plot.simulate_economy <- function(x, ...) {
   plot(1:periods, spread, type = "l", col = "black", lwd = 2,
        ylab = "Spread", xlab = "Time", main = "Spread ")
 }
-
-ss<-simulate_economy
-plot(ss)
