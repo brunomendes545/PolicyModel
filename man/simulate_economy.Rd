@@ -28,6 +28,7 @@ simulate_economy(
 }
 \arguments{
 \item{periods}{Number of periods to simulate (Default is 50)}
+
 \item{gamma}{- what is gamma ? what is the range?}
 
 \item{alpha}{- what is it ? what is the range?}
