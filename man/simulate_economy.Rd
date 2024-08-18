@@ -20,28 +20,32 @@ simulate_economy(
   cost_push_shocks = c(),
   monetary_shocks = c(),
   financial_shocks = c(),
-  demand_shock_magnitude = 1,
-  cost_push_shock_magnitude = 1,
-  monetary_shock_magnitude = 1,
-  financial_shock_magnitude = 1
+  demand_shock_magnitude = c(1),
+  cost_push_shock_magnitude = c(1),
+  monetary_shock_magnitude = c(1),
+  financial_shock_magnitude = c(1)
 )
 }
 \arguments{
-\item{periods}{Number of periods to simulate (Default is 50)}
+\item{periods}{- Number of periods to simulate (Default is 50)}
 
-\item{gamma}{- what is gamma ? what is the range?}
+\item{gamma}{- Parameters of the Phillips curve (Default is 0.75)}
 
-\item{alpha}{- what is it ? what is the range?}
+\item{alpha}{- Parameters of the IS curve (Default is 0.8)}
 
-\item{rule_pi}{- what is it ? what is the range?}
+\item{rule_pi}{- Parameters of the interest rate rule; (Response to inflation
+(relative to target)) (Default is 1.5)}
 
-\item{rule_y}{- what is it ? what is the range?}
+\item{rule_y}{- Parameters of the interest rate rule; (Response to output gap
+) (Default is 0.5)}
 
-\item{delta}{- what is it ? what is the range?}
+\item{delta}{- Financial Markets frictions (Default is 1)}
 
-\item{adaptive}{- what is it ? what is the range?}
+\item{adaptive}{- Weight on past inflation (1=adaptive expectations;
+0=rational expectations) (Default is 1)}
 
-\item{cost_push_shock_persistance}{- what is it ? what is the range?}
+\item{cost_push_shock_persistance}{- Persistence of cost push shocks; Range
+from 0 to 1; (Default is 0.5)}
 
 \item{demand_shock_persistance}{- what is it ? what is the range?}
 
@@ -73,10 +77,17 @@ Simulate an Monetary Policy
 }
 \examples{
 econ1 <- simulate_economy(
-             adaptive = 0,
-             demand_shocks = c(3),
-             cost_push_shocks = c(3),
-             monetary_shocks = c(3),
-             financial_shocks = c(5),
-             cost_push_shock_magnitude = 4)
+  cost_push_shock_persistance = 0.5,
+  demand_shock_persistance = 0.75,
+  monetary_shock_persistance = 0.5,
+  financial_shock_persistance = 0.5,
+  demand_shocks = c(3, 10),
+  cost_push_shocks = c(5, 15),
+  monetary_shocks = c(7),
+  financial_shocks = c(9),
+  demand_shock_magnitude = c(-2, 1),
+  cost_push_shock_magnitude = c(1.5, -0.5),
+  monetary_shock_magnitude = c(1),
+  financial_shock_magnitude = (0.5)
+)
 }

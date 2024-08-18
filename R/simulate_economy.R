@@ -89,6 +89,9 @@ simulate_economy <- function(
   # Initialize variables for simulation
   pie <- rep(2.0, periods)  # Inflation expectations
   pit <- rep(2.0, periods)  # Inflation target
+  # Initialize inflation (pi) vector
+  pi <- numeric(periods)
+  pi <- rep(2.0, periods)   # Inflation
   change_lending_rate <- rep(0.0, periods)  # Change in lending rate
 
   # Set shocks based on input periods and magnitudes
@@ -125,26 +128,21 @@ simulate_economy <- function(
       (demand_shock[t] - alpha * (monetary_shock[t] + financial_shock[t]))
   }
 
-  # Initialize inflation (pi) vector
-  pi <- numeric(periods)
 
-  # Update inflation expectations and targets
-  for (t in 2:periods) {
-    pi[t] <- 2.0  # Placeholder value for the inflation rate; adjust as per your model
-
-    if (t >= 3) {
-      pie[t] <- credible * pit[t-1] + adaptive * pi[t-1]
-      pit[t] <- pit[t-1] + pi_t_change[t]
-    }
-  }
-
-  # Calculate inflation with financial frictions
+  # Loop through periods and update inflation, expectations, and targets
   for (t in 1:periods) {
+    # Update inflation with financial frictions
     pi[t] <- theta * pie[t] +
       (1 - theta) * pit[t] +
       theta * (cost_push_shock[t] +
                  gamma / (1 + alpha * rule_y - alpha * delta) * demand_shock[t] -
                  alpha * gamma / (1 + alpha * rule_y - alpha * delta) * (monetary_shock[t] + financial_shock[t]))
+
+    # Update inflation expectations and targets
+    if (t > 2) {  # Skip
+      pie[t] <- credible * pit[t-1] + adaptive * pi[t-1]
+      pit[t] <- pit[t-1] + pi_t_change[t]
+    }
   }
 
   # Calculate central bank interest rate

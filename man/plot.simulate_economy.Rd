@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate_economy.R
 \name{plot.simulate_economy}
 \alias{plot.simulate_economy}
-\title{PLot Economy}
+\title{Plot Economy}
 \usage{
 \method{plot}{simulate_economy}(x, ...)
 }
@@ -19,12 +19,19 @@ plot generic for simulate_economy class
 }
 \examples{
 econ1 <- simulate_economy(
-             adaptive = 0,
-             demand_shocks = c(3),
-             cost_push_shocks = c(3),
-             monetary_shocks = c(3),
-             financial_shocks = c(5),
-             cost_push_shock_magnitude = 4)
+  cost_push_shock_persistance = 0.5,
+  demand_shock_persistance = 0.75,
+  monetary_shock_persistance = 0.5,
+  financial_shock_persistance = 0.5,
+  demand_shocks = c(3, 10),
+  cost_push_shocks = c(5, 15),
+  monetary_shocks = c(7),
+  financial_shocks = c(9),
+  demand_shock_magnitude = c(-2, 1),
+  cost_push_shock_magnitude = c(1.5, -0.5),
+  monetary_shock_magnitude = c(1),
+  financial_shock_magnitude = c(0.5)
+)
 
 plot(econ1)
 
