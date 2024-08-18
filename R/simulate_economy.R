@@ -140,7 +140,7 @@ simulate_economy <- function(
 
     # Update inflation expectations and targets
     if (t > 2) {  # Skip
-      pie[t] <- credible * pit[t-1] + adaptive * pi[t-1]
+      pie[t] <- credible * pit[t] + adaptive * pi[t-1]
       pit[t] <- pit[t-1] + pi_t_change[t]
     }
   }
